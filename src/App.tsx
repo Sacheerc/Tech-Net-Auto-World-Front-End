@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// App.tsx or index.tsx
 
-function App() {
+import React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Login from './pages/Login';
+
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+const App: React.FC = () => {
+  const [themeMode, setThemeMode] = React.useState<'light' | 'dark'>('light');
+
+  const toggleTheme = () => {
+    setThemeMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
+      <CssBaseline />
+      {/* Your other components go here */}
+      <Login toggleTheme={toggleTheme} />
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
