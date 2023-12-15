@@ -7,25 +7,21 @@ import {
   Typography,
   TextField,
   useTheme,
-  Link,
-  Container,
   Grid,
 } from '@mui/material';
 
 interface LoginProps {
-  toggleTheme: () => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
-const Login: React.FC<LoginProps> = ({ toggleTheme, onSubmit }) => {
+const Login: React.FC<LoginProps> = ({ onSubmit }) => {
   const theme = useTheme();
 
   return (
     <Grid container>
       {/* Left Side - Image */}
       <Grid item xs={12} sm={8}>
-        <Paper elevation={0} className='image-container'>
-        </Paper>
+        <Paper elevation={0} className='image-container'></Paper>
       </Grid>
 
       <Grid
@@ -33,9 +29,9 @@ const Login: React.FC<LoginProps> = ({ toggleTheme, onSubmit }) => {
         item
         xs={12}
         sm={4}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
       >
         <div className='paper'>
           <img src={logo} alt='Logo' className='logo' />
