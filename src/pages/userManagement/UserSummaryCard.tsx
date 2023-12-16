@@ -1,7 +1,7 @@
-import { Paper, Avatar, Grid, IconButton, Typography } from '@mui/material';
 import React from 'react';
-import avatar from '../../assets/images/dp.jpg';
+import { Paper, Avatar, Grid, IconButton, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import avatar from '../../assets/images/dp.jpg';
 
 interface UserSummaryProp {
   username: string;

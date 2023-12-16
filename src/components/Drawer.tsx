@@ -9,13 +9,16 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-import { Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-const drawerWidth = 240;
+//Icons from MUI
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CarRepairIcon from '@mui/icons-material/CarRepair';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import InventoryIcon from '@mui/icons-material/Inventory';
+
+const drawerWidth = 250;
 
 interface DrawerProps {
   open: boolean;
@@ -104,10 +107,37 @@ const Drawer: React.FC<DrawerProps> = ({ open, handleDrawerClose }) => {
                 justifyContent: 'center',
               }}
             >
-              <InboxIcon />
+              <DashboardIcon />
             </ListItemIcon>
             <ListItemText
               primary={'Dashboard'}
+              sx={{ opacity: open ? 1 : 0 }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem
+          sx={{ display: 'block' }}
+          onClick={() => navigate('/vehiclemanagement')}
+        >
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? 'initial' : 'center',
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : 'auto',
+                justifyContent: 'center',
+              }}
+            >
+              <CarRepairIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={'Vehicle Management'}
               sx={{ opacity: open ? 1 : 0 }}
             />
           </ListItemButton>
@@ -131,10 +161,37 @@ const Drawer: React.FC<DrawerProps> = ({ open, handleDrawerClose }) => {
                 justifyContent: 'center',
               }}
             >
-              <InboxIcon />
+              <ManageAccountsIcon />
             </ListItemIcon>
             <ListItemText
               primary={'User Management'}
+              sx={{ opacity: open ? 1 : 0 }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem
+          sx={{ display: 'block' }}
+          onClick={() => navigate('/inventorymanagement')}
+        >
+          <ListItemButton
+            sx={{
+              minHeight: 48,
+              justifyContent: open ? 'initial' : 'center',
+              px: 2.5,
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: open ? 3 : 'auto',
+                justifyContent: 'center',
+              }}
+            >
+              <InventoryIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={'Inventory'}
               sx={{ opacity: open ? 1 : 0 }}
             />
           </ListItemButton>

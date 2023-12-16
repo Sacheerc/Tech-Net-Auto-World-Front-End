@@ -8,7 +8,7 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 import { Box, Tooltip, Avatar, Menu, MenuItem } from '@mui/material';
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 interface AppBarProps extends MuiAppBarProps {
