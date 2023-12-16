@@ -1,6 +1,10 @@
 import React from 'react';
 import CustomDataGrid from '../../components/CustomDataGrid';
 import { GridColDef } from '@mui/x-data-grid';
+import { Grid, Typography, Button } from '@mui/material';
+
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 const columns: GridColDef[] = [
   { field: 'code', headerName: 'Code' },
@@ -89,12 +93,30 @@ const data = [
 ];
 
 const InventoryManagement: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <h1>Inventory</h1>
-      <br />
-      <CustomDataGrid columns={columns} data={data} />
-    </>
+    <Grid container xs={12} spacing={3} style={{ marginTop: 15 }}>
+      <Grid item container direction={'row'}>
+        <Grid xs={6}>
+          <Typography variant='h6' gutterBottom>
+            Inventory Management
+          </Typography>
+        </Grid>
+        <Grid xs={6} display={'flex'} justifyContent={'flex-end'}>
+          <Button
+            variant='outlined'
+            endIcon={<AddIcon />}
+            onClick={() => navigate('/vehiclemanagement/add')}
+          >
+            Add Item
+          </Button>
+        </Grid>
+      </Grid>
+      <Grid item style={{ width: '100%' }}>
+        <CustomDataGrid columns={columns} data={data} />
+      </Grid>
+    </Grid>
   );
 };
 

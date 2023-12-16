@@ -1,5 +1,6 @@
 import MainLayout from '../layouts/MainLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
+import InventoryItemForm from '../pages/inventoryManagement/InventoryItemForm';
 import InventoryManagement from '../pages/inventoryManagement/InventoryManagement';
 import UserManagement from '../pages/userManagement/UserManagement';
 import VehicleManagement from '../pages/vehicleManagement/VehicleManagement';
@@ -26,6 +27,10 @@ const MainRoutes = {
     {
       path: '/vehiclemanagement',
       element: <VehicleManagement />,
+    },
+    {
+      path: '/vehiclemanagement/add',
+      element: <InventoryItemForm />,
     },
   ],
 };
