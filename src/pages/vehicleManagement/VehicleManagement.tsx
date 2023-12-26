@@ -1,92 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomDataGrid from '../../components/CustomDataGrid';
 import { GridColDef } from '@mui/x-data-grid';
 import { Button, Grid, Paper, Typography } from '@mui/material';
-
+import VehicleService from '../../services/VehicleService';
 import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
 
 const columns: GridColDef[] = [
   { field: 'vehicleNo', headerName: 'Vehicle No', width: 120 },
-  { field: 'vehicle', headerName: 'Vehicle', width: 100 },
   { field: 'model', headerName: 'Model', width: 110 },
   { field: 'color', headerName: 'Color' },
-  {
-    field: 'inTime',
-    headerName: 'In Time',
-    width: 180,
-  },
-  {
-    field: 'outTime',
-    headerName: 'Out Time',
-    width: 180,
-  },
-  {
-    field: 'status',
-    headerName: 'Status',
-    width: 120,
-  },
-];
-
-const data = [
-  {
-    id: 'CAQ-6219',
-    vehicleNo: 'CAQ-6219',
-    vehicle: 'Toyota Prius',
-    model: 'Cargo Car',
-    color: 'Red',
-    inTime: '22-11-2023 09.45 AM',
-    outTime: '22-11-2023 09.45 AM',
-    status: 'Complete',
-  },
-  {
-    id: 'CBQ-6218',
-    vehicleNo: 'CBQ-6218',
-    vehicle: 'Toyota Prius',
-    model: 'Cargo Car',
-    color: 'Black',
-    inTime: '22-11-2023 09.45 AM',
-    outTime: '22-11-2023 09.45 AM',
-    status: 'In Progress',
-  },
-  {
-    id: 'CAR-6219',
-    vehicleNo: 'CAR-6219',
-    vehicle: 'Toyota Prius',
-    model: 'Cargo Car',
-    color: 'Red',
-    inTime: '22-11-2023 09.45 AM',
-    outTime: '22-11-2023 09.45 AM',
-    status: 'Canceled',
-  },
-  {
-    id: 'CAQ-6220',
-    vehicleNo: 'CAQ-6220',
-    vehicle: 'Toyota Prius',
-    model: 'Cargo Car',
-    color: 'Black',
-    inTime: '22-11-2023 09.45 AM',
-    outTime: '22-11-2023 09.45 AM',
-    status: 'Completed',
-  },
+  { field: 'ownerNIC', headerName: 'Owner NIC', width: 120 },
+  { field: 'ownerContact', headerName: 'Owner Contact', width: 150 },
 ];
 
 const VehicleManagement: React.FC = () => {
+  const navigate = useNavigate();
+  const [vehicleData, setVehicleData] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await VehicleService.getAll();
+        setVehicleData(data);
+        console.log(vehicleData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <Grid container xs={12} spacing={3} style={{ marginTop: 20 }}>
+    <Grid container spacing={3} style={{ marginTop: 20 }}>
       <Grid item container direction={'row'}>
-        <Grid xs={6}>
+        <Grid item xs={6}>
           <Typography variant='h6' gutterBottom>
             Vehicle Management
           </Typography>
         </Grid>
-        <Grid xs={6} display={'flex'} justifyContent={'flex-end'}>
-          <Button variant='outlined' endIcon={<AddIcon />}>
+        <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
+          <Button
+            variant='outlined'
+            endIcon={<AddIcon />}
+            onClick={() => navigate('/vehiclemanagement/add')}
+          >
             Add Vehicle
           </Button>
         </Grid>
       </Grid>
       <Grid item style={{ width: '100%' }}>
-        <CustomDataGrid columns={columns} data={data} />
+        {vehicleData ? (
+          <CustomDataGrid
+            columns={columns}
+            data={vehicleData.vehicles}
+            id='vehicleNo'
+          />
+        ) : (
+          <></>
+        )}
       </Grid>
     </Grid>
   );

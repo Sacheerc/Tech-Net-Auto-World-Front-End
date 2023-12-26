@@ -3,6 +3,7 @@ import Dashboard from '../pages/dashboard/Dashboard';
 import InventoryItemForm from '../pages/inventoryManagement/InventoryItemForm';
 import InventoryManagement from '../pages/inventoryManagement/InventoryManagement';
 import UserManagement from '../pages/userManagement/UserManagement';
+import VehicleDetailsForm from '../pages/vehicleManagement/VehicleDetailsForm';
 import VehicleManagement from '../pages/vehicleManagement/VehicleManagement';
 import PrivateRoute from './PrivateRoute';
 
@@ -30,7 +31,7 @@ const MainRoutes = {
     },
     {
       path: '/vehiclemanagement/add',
-      element: <InventoryItemForm />,
+      element: <VehicleDetailsForm />,
     },
   ],
 };

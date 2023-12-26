@@ -114,7 +114,7 @@ const InventoryManagement: React.FC = () => {
         </Grid>
       </Grid>
       <Grid item style={{ width: '100%' }}>
-        <CustomDataGrid columns={columns} data={data} />
+        <CustomDataGrid columns={columns} data={data} id='id' />
       </Grid>
     </Grid>
   );

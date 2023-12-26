@@ -7,16 +7,22 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid } from '@mui/material';
 
 interface Row {
-  id: number | string;
+  // id: number | string;
   [key: string]: any;
 }
 
 interface CustomDataGridProps {
   columns: GridColDef[];
   data: Row[];
+  id: string;
 }
 
-const CustomDataGrid: React.FC<CustomDataGridProps> = ({ columns, data }) => {
+const CustomDataGrid: React.FC<CustomDataGridProps> = ({
+  columns,
+  data,
+  id,
+}) => {
+  console.log(columns[0].field);
   const handleEdit = (id: number | string) => {
     console.log(`Edit button clicked for ID: ${id}`);
   };
@@ -40,13 +46,13 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({ columns, data }) => {
       align: 'right',
       renderCell: (params: GridCellParams<Row>) => (
         <div>
-          <IconButton onClick={() => handleEdit(params.row.id)}>
+          <IconButton onClick={() => handleEdit(params.id)}>
             <EditIcon />
           </IconButton>
-          <IconButton color='info' onClick={() => handleView(params.row.id)}>
+          <IconButton color='info' onClick={() => handleView(params.id)}>
             <VisibilityIcon />
           </IconButton>
-          <IconButton color='error' onClick={() => handleDelete(params.row.id)}>
+          <IconButton color='error' onClick={() => handleDelete(params.id)}>
             <DeleteIcon />
           </IconButton>
         </div>
@@ -68,6 +74,7 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({ columns, data }) => {
         }}
         pageSizeOptions={[5]}
         autoHeight
+        getRowId={(row) => row[id]}
       />
     </Grid>
   );

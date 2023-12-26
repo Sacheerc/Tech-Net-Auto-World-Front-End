@@ -2,7 +2,7 @@
 import { useState, useCallback, useContext } from 'react';
 
 // Project dependencies
-import AuthContext from '../../context/AuthContextProvier';
+import AuthContext from '../../context/AuthContextProvider';
 
 const BASE_URL = 'http://localhost:8080';
 

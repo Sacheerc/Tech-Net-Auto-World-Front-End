@@ -3,7 +3,7 @@ import { useEffect, useState, useContext, FormEventHandler } from 'react';
 
 // Project dependencies
 import useApi from '../../hooks/api/useApi';
-import AuthContext from '../../context/AuthContextProvier';
+import AuthContext from '../../context/AuthContextProvider';
 import { validatePasswordLength, validateEmailFormat } from './validations';
 import { AuthData } from '../../hooks/api/apiData/AuthData';
 import Login from './Login';
