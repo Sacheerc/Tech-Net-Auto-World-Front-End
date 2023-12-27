@@ -9,17 +9,14 @@ import {
 import React from 'react';
 
 const VehicleDetailsForm: React.FC = () => {
-  const [images, setImages] = React.useState<File[]>([]);
   const [formData, setFormData] = React.useState({
-    id: '',
-    code: '',
-    itemName: '',
-    description: '',
-    quantity: '',
-    price: '',
-    locationCode: '',
-    countryOfOrigin: '',
-    brand: '',
+    vehicleNo: '',
+    model: '',
+    color: '',
+    ownerAddress: '',
+    ownerNIC: '',
+    ownerContact: '',
+    ownerEmail: ''
   });
 
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>(
@@ -31,26 +28,13 @@ const VehicleDetailsForm: React.FC = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = e.target.files;
-
-    if (selectedFiles) {
-      const newImages: File[] = Array.from(selectedFiles);
-      setImages((prevImages) => [...prevImages, ...newImages]);
-    }
-  };
-
-  const handleRemoveImage = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-
   const handleSave = () => {
     // Validate form fields
     const errors: Record<string, string> = {};
 
     // Example: Check if a field is empty
-    if (!formData.itemName) {
-      errors.itemName = 'Item name is required';
+    if (!formData.vehicleNo) {
+      errors.vehicleNo = 'vehicleNo is required';
     }
 
     // Set errors if any
@@ -81,148 +65,87 @@ const VehicleDetailsForm: React.FC = () => {
             <Grid container spacing={4}>
               <Grid item xs={2}>
                 <TextField
-                  label='Code'
-                  name='code'
-                  value={formData.code}
+                  label='Vehicle No'
+                  name='vehicleNo'
+                  value={formData.vehicleNo}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.id)}
-                  helperText={formErrors.id}
+                  error={Boolean(formErrors.vehicleNo)}
+                  helperText={formErrors.vehicleNo}
                   variant='standard'
                 />
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  label='Item Name'
-                  name='itemName'
-                  value={formData.itemName}
+                  label='Model'
+                  name='model'
+                  value={formData.model}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.itemName)}
-                  helperText={formErrors.itemName}
+                  error={Boolean(formErrors.model)}
+                  helperText={formErrors.model}
                   variant='standard'
                 />
               </Grid>
               <Grid item xs={4}>
                 <TextField
-                  label='Description'
-                  name='description'
-                  value={formData.description}
+                  label='Color'
+                  name='color'
+                  value={formData.color}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.description)}
-                  helperText={formErrors.description}
+                  error={Boolean(formErrors.color)}
+                  helperText={formErrors.color}
                   variant='standard'
                 />
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  label='Quantity'
-                  name='quantity'
-                  type='number'
-                  value={formData.quantity}
+                  label='Owner Address'
+                  name='ownerAddress'
+                  value={formData.ownerAddress}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.quantity)}
-                  helperText={formErrors.quantity}
+                  error={Boolean(formErrors.ownerAddress)}
+                  helperText={formErrors.ownerAddress}
                   variant='standard'
                 />
               </Grid>
               <Grid item xs={2}>
                 <TextField
-                  label='Price'
-                  name='price'
-                  type='number'
-                  value={formData.price}
+                  label='Owner NIC'
+                  name='ownerNIC'
+                  value={formData.ownerAddress}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.price)}
-                  helperText={formErrors.price}
+                  error={Boolean(formErrors.ownerNIC)}
+                  helperText={formErrors.ownerNIC}
+                  variant='standard'
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <TextField
+                  label='Owner Contact'
+                  name='ownerContact'
+                  value={formData.ownerContact}
+                  onChange={handleInputChange}
+                  fullWidth
+                  error={Boolean(formErrors.ownerContact)}
+                  helperText={formErrors.ownerContact}
                   variant='standard'
                 />
               </Grid>
               <Grid item xs={3}>
                 <TextField
-                  label='Location Code'
-                  name='locationCode'
-                  value={formData.locationCode}
+                  label='Owner Email'
+                  name='ownerEmail'
+                  value={formData.ownerEmail}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.locationCode)}
-                  helperText={formErrors.locationCode}
+                  error={Boolean(formErrors.ownerEmail)}
+                  helperText={formErrors.ownerEmail}
                   variant='standard'
                 />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label='Country of Origin'
-                  name='countryOfOrigin'
-                  value={formData.countryOfOrigin}
-                  onChange={handleInputChange}
-                  fullWidth
-                  error={Boolean(formErrors.countryOfOrigin)}
-                  helperText={formErrors.countryOfOrigin}
-                  variant='standard'
-                />
-              </Grid>
-              <Grid item xs={2}>
-                <TextField
-                  label='Brand'
-                  name='brand'
-                  value={formData.brand}
-                  onChange={handleInputChange}
-                  fullWidth
-                  error={Boolean(formErrors.brand)}
-                  helperText={formErrors.brand}
-                  variant='standard'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Stack direction='row' spacing={2}>
-                  <Grid item xs={2}>
-                    <label htmlFor='image-input'>
-                      <Button component='span' variant='outlined'>
-                        Upload Image
-                      </Button>
-                    </label>
-                    <input
-                      type='file'
-                      accept='image/*'
-                      multiple
-                      id='image-input'
-                      onChange={handleImageChange}
-                      style={{ display: 'none' }}
-                    />
-                  </Grid>
-                  {images.map((image, index) => (
-                    <Grid
-                      container
-                      item
-                      key={index}
-                      direction={'column'}
-                      width={100}
-                    >
-                      <Grid>
-                        <img
-                          src={URL.createObjectURL(image)}
-                          alt={`Preview ${index}`}
-                          width='100'
-                          height='100'
-                        />
-                      </Grid>
-                      <Grid>
-                        <Button
-                          variant='outlined'
-                          size='small'
-                          onClick={() => handleRemoveImage(index)}
-                          color='error'
-                        >
-                          Remove
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  ))}
-                </Stack>
               </Grid>
               {/* Add a section for multiple images */}
               {/* For multiple images, you might want to use a file input */}
