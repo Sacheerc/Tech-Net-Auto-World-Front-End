@@ -26,6 +26,10 @@ const MainRoutes = {
       element: <InventoryManagement />,
     },
     {
+      path: '/inventorymanagement/add',
+      element: <InventoryItemForm />,
+    },
+    {
       path: '/vehiclemanagement',
       element: <VehicleManagement />,
     },

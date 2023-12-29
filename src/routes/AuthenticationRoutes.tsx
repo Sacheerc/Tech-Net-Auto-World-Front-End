@@ -1,8 +1,5 @@
 import React from 'react';
-import Auth from '../pages/Login/Auth';
-
-// project imports
-
+import Auth from '../pages/login/Auth';
 
 const AuthenticationRoutes = {
   path: '/login',

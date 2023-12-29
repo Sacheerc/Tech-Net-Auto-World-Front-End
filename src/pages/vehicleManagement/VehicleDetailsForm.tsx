@@ -7,8 +7,13 @@ import {
   Stack,
 } from '@mui/material';
 import React from 'react';
+import Vehicle from '../../Models/Vehicle';
+import VehicleService from '../../services/VehicleService';
+import { useNavigate } from 'react-router-dom';
 
 const VehicleDetailsForm: React.FC = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = React.useState({
     vehicleNo: '',
     model: '',
@@ -16,7 +21,8 @@ const VehicleDetailsForm: React.FC = () => {
     ownerAddress: '',
     ownerNIC: '',
     ownerContact: '',
-    ownerEmail: ''
+    ownerEmail: '',
+    serviceRecords: [],
   });
 
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>(
@@ -28,7 +34,7 @@ const VehicleDetailsForm: React.FC = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Validate form fields
     const errors: Record<string, string> = {};
 
@@ -44,6 +50,10 @@ const VehicleDetailsForm: React.FC = () => {
     if (Object.keys(errors).length === 0) {
       // Add your save logic here
       console.log('Form data:', formData);
+      const vehicle: Vehicle = formData;
+      const res = await VehicleService.add(vehicle);
+      console.log(res);
+      navigate('/vehiclemanagement');
     }
   };
 
@@ -115,7 +125,7 @@ const VehicleDetailsForm: React.FC = () => {
                 <TextField
                   label='Owner NIC'
                   name='ownerNIC'
-                  value={formData.ownerAddress}
+                  value={formData.ownerNIC}
                   onChange={handleInputChange}
                   fullWidth
                   error={Boolean(formErrors.ownerNIC)}
