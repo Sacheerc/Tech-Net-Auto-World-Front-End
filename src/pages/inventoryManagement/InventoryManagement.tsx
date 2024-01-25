@@ -107,7 +107,7 @@ const InventoryManagement: React.FC = () => {
           <Button
             variant='outlined'
             endIcon={<AddIcon />}
-            onClick={() => navigate('/vehiclemanagement/add')}
+            onClick={() => navigate('/inventorymanagement/add')}
           >
             Add Item
           </Button>
