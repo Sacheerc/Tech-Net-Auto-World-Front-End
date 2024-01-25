@@ -15,6 +15,24 @@ const getAll = async () => {
   }
 };
 
+const loadVehicleNoList = async () => {
+  try {
+    const response = await api.get(`/vehicle/vehicle-no-list`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const loadVehicleByVehicleNo = async (vehicleNo: string) => {
+  try {
+    const response = await api.get(`/vehicle/${vehicleNo}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const add = async (vehicle: Vehicle) => {
   try {
     const response = await api.post(`/vehicle/add`, vehicle);
@@ -33,6 +51,6 @@ const deleteById = async (id: string) => {
   }
 };
 
-const VehicleService = { getAll, add, deleteById };
+const VehicleService = { getAll, add, deleteById, loadVehicleNoList, loadVehicleByVehicleNo };
 
 export default VehicleService;
