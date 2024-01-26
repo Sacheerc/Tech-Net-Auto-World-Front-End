@@ -6,7 +6,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid } from '@mui/material';
 
-interface Row {
+ export interface Row {
   // id: number | string;
   [key: string]: any;
 }
@@ -15,16 +15,21 @@ interface CustomDataGridProps {
   columns: GridColDef[];
   data: Row[];
   id: string;
+  deleteById?: (id:number|string)=> void;
+  openEditModal?: (rowData: Row) => void;
 }
 
 const CustomDataGrid: React.FC<CustomDataGridProps> = ({
   columns,
   data,
   id,
+  deleteById,
+  openEditModal,
 }) => {
   console.log(columns[0].field);
-  const handleEdit = (id: number | string) => {
+  const handleEdit = (id: number | string, rowData: Row) => {
     console.log(`Edit button clicked for ID: ${id}`);
+    openEditModal && openEditModal(rowData);
   };
 
   const handleView = (id: number | string) => {
@@ -33,6 +38,7 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
 
   const handleDelete = (id: number | string) => {
     console.log(`Delete button clicked for ID: ${id}`);
+    deleteById && deleteById(id);
   };
 
   // Add custom actions column to the provided columns
@@ -46,7 +52,7 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
       align: 'right',
       renderCell: (params: GridCellParams<Row>) => (
         <div>
-          <IconButton onClick={() => handleEdit(params.id)}>
+          <IconButton onClick={() => handleEdit(params.id, params.row)}>
             <EditIcon />
           </IconButton>
           <IconButton color='info' onClick={() => handleView(params.id)}>

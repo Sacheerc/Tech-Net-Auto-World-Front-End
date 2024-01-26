@@ -28,7 +28,7 @@ const MainRoutes = {
     },
     {
       path: '/inventorymanagement/add',
-      element: <InventoryItemForm />,
+      element: <InventoryItemForm inventory={null} />,
     },
     {
       path: '/vehiclemanagement',

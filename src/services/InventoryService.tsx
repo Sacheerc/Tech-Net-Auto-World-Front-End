@@ -42,7 +42,7 @@ const add = async (inventory: Inventory) => {
     }
 };
 
-const deleteByCode = async (code: string) => {
+const deleteByCode = async (code: string | number) => {
     try {
         const response = await api.delete(`/inventory/${code}`);
         return response.data;
