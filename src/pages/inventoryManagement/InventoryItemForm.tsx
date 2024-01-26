@@ -1,27 +1,25 @@
-import {
-  Grid,
-  Typography,
-  Button,
-  TextField,
-  Paper,
-  Input,
-  Stack,
-} from '@mui/material';
+import { Grid, Typography, Button, TextField, Paper, Input, Stack, } from '@mui/material';
 import React from 'react';
 import CustomDataGrid from '../../components/CustomDataGrid';
+import InventoryService from '../../services/InventoryService';
+import Inventory from '../../Models/Inventory';
+import { useNavigate } from 'react-router-dom';
 
-const InventoryItemForm: React.FC = () => {
+const InventoryItemForm: React.FC<{ inventory: Inventory | null }> = (props) => {
   const [images, setImages] = React.useState<File[]>([]);
-  const [formData, setFormData] = React.useState({
-    id: '',
+  const navigate = useNavigate();
+  const loadedInventory = props.inventory;
+  const [formData, setFormData] = React.useState<Inventory>(loadedInventory ? loadedInventory : {
     code: '',
-    itemName: '',
+    name: '',
     description: '',
-    quantity: '',
-    price: '',
+    quantity: 0,
+    price: 0,
     locationCode: '',
     countryOfOrigin: '',
     brand: '',
+    usedInventoryItems: [],
+    inventoryImages: []
   });
 
   const [formErrors, setFormErrors] = React.useState<Record<string, string>>(
@@ -46,13 +44,13 @@ const InventoryItemForm: React.FC = () => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Validate form fields
     const errors: Record<string, string> = {};
 
     // Example: Check if a field is empty
-    if (!formData.itemName) {
-      errors.itemName = 'Item name is required';
+    if (!formData.name) {
+      errors.name = 'Item name is required';
     }
 
     // Set errors if any
@@ -62,6 +60,9 @@ const InventoryItemForm: React.FC = () => {
     if (Object.keys(errors).length === 0) {
       // Add your save logic here
       console.log('Form data:', formData);
+      const inventory: Inventory = formData;
+      const res = await InventoryService.add(inventory);
+      navigate('/inventorymanagement');
     }
   };
 
@@ -96,12 +97,12 @@ const InventoryItemForm: React.FC = () => {
               <Grid item xs={3}>
                 <TextField
                   label='Item Name'
-                  name='itemName'
-                  value={formData.itemName}
+                  name='name'
+                  value={formData.name}
                   onChange={handleInputChange}
                   fullWidth
-                  error={Boolean(formErrors.itemName)}
-                  helperText={formErrors.itemName}
+                  error={Boolean(formErrors.name)}
+                  helperText={formErrors.name}
                   variant='standard'
                 />
               </Grid>
