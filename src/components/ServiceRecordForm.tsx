@@ -4,15 +4,14 @@ import ServiceRecord from "../Models/ServiceRecord";
 import InventoryService from "../services/InventoryService";
 import Inventory from "../Models/Inventory";
 import UsedInventoryItem from "../Models/UsedInventoryItem";
+import UsedInventoryItemForm from "./UsedInventoryItemForm";
 
 const ServiceRecordForm: React.FC<{ serviceRecord: ServiceRecord | null }> = (props) => {
 
     const loadedServiceRecord = props.serviceRecord;
-    const [selectedValue, setSelectedValue] = useState<string>('');
+
     const [codeList, setCodeList] = useState<string[]>([]);
-    const [inventoryItem, setInventoryItem] = useState<Inventory | null>(null);
-    const [usedInventoryItemList, setusedInventoryItemList] = useState<UsedInventoryItem[]>([]);
-    const [inventoryItemForm, setinventoryItemForm] = useState<UsedInventoryItem | null>(null);
+    const [inventoryItemList, setInventoryItemList] = useState<Inventory[]>([]);
 
 
     const [formData, setFormData] = React.useState<ServiceRecord>(loadedServiceRecord ? loadedServiceRecord : {
@@ -37,9 +36,6 @@ const ServiceRecordForm: React.FC<{ serviceRecord: ServiceRecord | null }> = (pr
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleAutocompleteChange = (event: any, newValue: any) => {
-        setSelectedValue(newValue);
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,23 +49,9 @@ const ServiceRecordForm: React.FC<{ serviceRecord: ServiceRecord | null }> = (pr
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if (selectedValue) {
-            const fetchData = async () => {
-                try {
-                    setInventoryItem(null);
-                    const data = await InventoryService.loadInventoryByCode(selectedValue);
-                    setInventoryItem(data.inventoryItem);
-                    console.log(data.inventoryItem);
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                }
-            };
-            fetchData();
-        }
-    }, [selectedValue]);
 
     const handleSave = async () => {
+        console.log(inventoryItemList)
         const errors: Record<string, string> = {};
         if (!formData.checkIn) {
             errors.vehicleNo = 'Checked in time is required';
@@ -88,9 +70,27 @@ const ServiceRecordForm: React.FC<{ serviceRecord: ServiceRecord | null }> = (pr
         console.log('Form canceled');
     };
 
-    const handleAddItem = () => {
-        console.log('Form canceled');
+    const handleAddItem = (inventoryItem: Inventory) => {
+        setInventoryItemList(inventoryItemList => [...inventoryItemList, inventoryItem!])
     };
+
+    const deleteUsedInventoryItem = (index: number) => {
+        setInventoryItemList((prevInventoryItemList) => {
+            // Ensure index is within valid range
+            if (index < 0 || index >= prevInventoryItemList.length) {
+                console.error('Invalid index for deletion');
+                return prevInventoryItemList;
+            }
+
+            // Create a new array excluding the item at the specified index
+            const updatedInventoryItemList = [
+                ...prevInventoryItemList.slice(0, index),
+                ...prevInventoryItemList.slice(index + 1),
+            ];
+
+            return updatedInventoryItemList;
+        });
+    }
 
     return (<Grid>
         <form>
@@ -201,69 +201,28 @@ const ServiceRecordForm: React.FC<{ serviceRecord: ServiceRecord | null }> = (pr
                     />
                 </Grid>
             </Grid>
+            <br />
+            <Typography variant='h6' gutterBottom>
+                Inventory Items
+            </Typography>
             <br></br>
-            <Grid>
-                <Typography variant='h6' gutterBottom>
-                    Inventory Items
-                </Typography>
-                <br></br>
-                <Grid container direction={'row'} display={'flex'} spacing={2}>
-                    <Grid item xs={2}>
-                        {codeList && <Autocomplete
-                            disablePortal
-                            id="filter-inventory-code"
-                            options={codeList}
-                            sx={{ width: 'auto' }}
-                            onChange={handleAutocompleteChange}
-                            renderInput={(params) => <TextField {...params} label="Item Code" />}
-                        />}
-                    </Grid>
-                    {selectedValue && inventoryItem && <Grid item xs={2}>
-                        <TextField
-                            label='Item Name'
-                            name='itemName'
-                            value={inventoryItem.name}
-                            fullWidth
-                            error={Boolean(formErrors.status)}
-                            helperText={formErrors.status}
-                            variant='standard'
-                            InputProps={{
-                                readOnly: true,
-                            }}
+            <UsedInventoryItemForm
+                codeList={codeList}
+                handleAddItem={handleAddItem}
+            />
+            <br />
+            {inventoryItemList.length > 0 && (
+                <div>
+                    {inventoryItemList.map((inventoryItem, index) => (
+                        <UsedInventoryItemForm
+                            key={index}
+                            index={index}
+                            codeList={codeList}
+                            selectedInventoryItem={inventoryItem}
+                            deleteUsedInventoryItem={deleteUsedInventoryItem}
                         />
-                    </Grid>}
-                    {selectedValue && inventoryItem && <Grid item xs={2}>
-                        <TextField
-                            label='Quantity'
-                            name='quantity'
-                            value={formData.status}
-                            fullWidth
-                            type="number"
-                            error={Boolean(formErrors.status)}
-                            helperText={formErrors.status}
-                            variant='standard'
-                        />
-                    </Grid>}
-                    {selectedValue && inventoryItem && <Grid item xs={2}>
-                        <TextField
-                            label='Total Amount'
-                            name='totalAmount'
-                            value={inventoryItem.price}
-                            fullWidth
-                            type="number"
-                            error={Boolean(formErrors.status)}
-                            helperText={formErrors.status}
-                            variant='standard'
-                        />
-                    </Grid>}
-                    <Grid item justifyContent={'flex-end'}>
-                        <Button variant='outlined' onClick={handleAddItem}>
-                            Add
-                        </Button>
-                    </Grid>
-                </Grid>
-
-            </Grid>
+                    ))}
+                </div>)}
 
             {/* Buttons for save and cancel */}
             <Grid
