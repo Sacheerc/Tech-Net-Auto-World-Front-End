@@ -1,7 +1,10 @@
 import React from 'react';
-import { Paper, Avatar, Grid, IconButton, Typography } from '@mui/material';
+import { Paper, Avatar, Grid, IconButton, Typography, MenuItem, Menu } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import avatar from '../../assets/images/dp.jpg';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface UserSummaryProp {
   username: string;
@@ -16,6 +19,11 @@ const iconButtonStyle = {
   top: 1,
   right: 1,
 };
+const settings = [
+  { label: 'View', icon: <VisibilityIcon />, color: '#0000FF' },
+  { label: 'Edit', icon: <EditIcon />, color: '#008000' },
+  { label: 'Delete', icon: <DeleteIcon />, color: '#FF0000' },
+];
 
 const UserSummaryCard: React.FC<UserSummaryProp> = ({
   username,
@@ -23,11 +31,57 @@ const UserSummaryCard: React.FC<UserSummaryProp> = ({
   dp,
   role,
 }) => {
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleEdit = (id: string, row: any) => {
+    console.log('Edit clicked for id:', id, ' and row:', row);
+  };
+
+  const handleView = (id: string) => {
+    console.log('View clicked for id:', id);
+  };
+
+  const handleDelete = (id: string) => {
+    console.log('Delete clicked for id:', id);
+  };
   return (
     <Paper style={{ position: 'relative', padding: 20 }}>
-      <IconButton color='primary' aria-label='settings' sx={iconButtonStyle}>
+      <IconButton color='primary' aria-label='settings' sx={iconButtonStyle} onClick={handleOpenUserMenu}>
         <MoreVertIcon />
       </IconButton>
+      <Menu
+        sx={{ mt: '45px' }}
+        id='menu-appbar'
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {settings.map(({ label, icon, color }) => (
+          <MenuItem key={label} onClick={handleCloseUserMenu}>
+            <IconButton color='inherit' style={{ color }}>{icon}</IconButton>
+            <Typography marginLeft={1} textAlign='center'>{label}</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
       <Grid container direction={'row'} spacing={4} alignItems={'center'}>
         <Grid item>
           <Avatar alt={username} src={avatar} sx={avatarStyle} />
