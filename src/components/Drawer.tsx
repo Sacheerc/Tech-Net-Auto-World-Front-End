@@ -118,7 +118,7 @@ const Drawer: React.FC<DrawerProps> = ({ open, handleDrawerClose }) => {
         <Divider />
         <ListItem
           sx={{ display: 'block' }}
-          onClick={() => navigate('/vehiclemanagement')}
+          onClick={() => navigate('/vehiclemanagement/quotation/add')}
         >
           <ListItemButton
             sx={{
