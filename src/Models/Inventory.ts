@@ -3,6 +3,7 @@ import UsedInventoryItem from "./UsedInventoryItem";
 
 
 interface Inventory {
+    id: number;
     code: string;
     name: string;
     description: string;
@@ -12,6 +13,7 @@ interface Inventory {
     countryOfOrigin: string;
     brand: string;
     usedInventoryItems: UsedInventoryItem[];
+    usedInventoryItem?: UsedInventoryItem;
     inventoryImages: InventoryImage[]
 }
 

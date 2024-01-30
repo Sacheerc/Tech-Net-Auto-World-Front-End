@@ -1,12 +1,18 @@
 import * as React from 'react';
-import { DataGrid, GridCellParams, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridColDef, GridRowModel } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Grid } from '@mui/material';
 
- export interface Row {
+declare module '@mui/x-data-grid' {
+  interface FooterPropsOverrides {
+    total: number;
+  }
+}
+
+export interface Row {
   // id: number | string;
   [key: string]: any;
 }
@@ -15,18 +21,26 @@ interface CustomDataGridProps {
   columns: GridColDef[];
   data: Row[];
   id: string;
-  deleteById?: (id:number|string)=> void;
+  hideFooter?: boolean;
+  deleteById?: (id: number | string) => void;
   openEditModal?: (rowData: Row) => void;
+  updateRow?: (newRow: GridRowModel) => void;
+  customFooter?: React.ComponentType<any>;
+  customFooterPros?: any;
 }
 
 const CustomDataGrid: React.FC<CustomDataGridProps> = ({
   columns,
   data,
   id,
+  hideFooter,
   deleteById,
   openEditModal,
+  updateRow,
+  customFooter,
+  customFooterPros
 }) => {
-  console.log(columns[0].field);
+
   const handleEdit = (id: number | string, rowData: Row) => {
     console.log(`Edit button clicked for ID: ${id}`);
     openEditModal && openEditModal(rowData);
@@ -41,6 +55,16 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
     deleteById && deleteById(id);
   };
 
+
+  const processRowUpdate = React.useCallback(
+    (newRow: GridRowModel, oldRow: GridRowModel) =>
+      new Promise<GridRowModel>((resolve, reject) => {
+        resolve(newRow)
+        updateRow && updateRow(newRow);
+      }),
+    [updateRow],
+  );
+
   // Add custom actions column to the provided columns
   const columnsWithActions: GridColDef[] = [
     ...columns,
@@ -48,7 +72,7 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
       field: 'actions',
       headerName: 'Actions',
       headerAlign: 'right',
-      flex: 1,
+      width: 200,
       align: 'right',
       renderCell: (params: GridCellParams<Row>) => (
         <div>
@@ -66,8 +90,11 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
     },
   ];
 
+  const totalWidth = columns.reduce((acc, column) => acc + (column.width || 100), 0);
+  console.log(totalWidth)
+
   return (
-    <Grid item container>
+    <Grid width={totalWidth + 250}>
       <DataGrid
         rows={data}
         columns={columnsWithActions}
@@ -78,9 +105,19 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
             },
           },
         }}
+        processRowUpdate={processRowUpdate}
         pageSizeOptions={[5]}
         autoHeight
         getRowId={(row) => row[id]}
+        hideFooter={hideFooter}
+        slots={{
+          ...(customFooter && { footer: customFooter }),
+        }}
+        slotProps={{
+          footer: {
+            ...(customFooterPros)
+          },
+        }}
       />
     </Grid>
   );

@@ -4,6 +4,7 @@ import InventoryItemForm from '../pages/inventoryManagement/InventoryItemForm';
 import InventoryManagement from '../pages/inventoryManagement/InventoryManagement';
 import UserForm from '../pages/userManagement/UserForm';
 import UserManagement from '../pages/userManagement/UserManagement';
+import Quotation from '../pages/vehicleManagement/Quotation';
 import ServiceRecordsManagement from '../pages/vehicleManagement/ServiceRecordManagement';
 import VehicleDetailsForm from '../pages/vehicleManagement/VehicleDetailsForm';
 import VehicleManagement from '../pages/vehicleManagement/VehicleManagement';
@@ -46,6 +47,10 @@ const MainRoutes = {
     {
       path: '/servicerecords/management',
       element: <ServiceRecordsManagement />,
+    },
+    {
+      path: '/vehiclemanagement/quotation/add',
+      element: <Quotation />,
     },
   ],
 };

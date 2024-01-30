@@ -10,6 +10,7 @@ const InventoryItemForm: React.FC<{ inventory: Inventory | null }> = (props) => 
   const navigate = useNavigate();
   const loadedInventory = props.inventory;
   const [formData, setFormData] = React.useState<Inventory>(loadedInventory ? loadedInventory : {
+    id: -1,
     code: '',
     name: '',
     description: '',
