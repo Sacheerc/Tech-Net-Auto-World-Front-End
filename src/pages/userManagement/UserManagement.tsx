@@ -5,6 +5,7 @@ import { Button, Card, Grid, Paper, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
+import UserEditModal from './UserEditModal';
 
 const userSummaryList: User[] = [
   {
@@ -54,6 +55,8 @@ const userSummaryList: User[] = [
 const UserManagement: React.FC = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<any | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -68,6 +71,30 @@ const UserManagement: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setIsEditModalOpen(false);
+    setSelectedUser(null);
+  };
+
+  const handleSaveEditedUser = (editedUser: User) => {
+    // Add your logic to save the edited user
+    console.log('Saving edited user:', editedUser);
+    // Close the modal
+    handleEditModalClose();
+  };
+
+  const handleDeleteUser = async (id: string | number) => {
+    console.log(`Delete dunction in user management for ID: ${id}`);
+    await AuthService.deleteByUsername(id);
+    await fetchData();
+    console.log(`Successfully deleted ID: ${id}`);
+  };
 
   return (
     <Grid container spacing={3} style={{ marginTop: 15 }}>
@@ -90,13 +117,20 @@ const UserManagement: React.FC = () => {
       {userData?.users.map((user: any) => (
         <Grid key={user.id} item md={3}>
           <UserSummaryCard
-            username={user.username}
-            email={user.email}
-            dp={user.dp}
-            role={user.role}
+            user={user}
+            onEdit={handleEditUser}
+            onDelete={handleDeleteUser}
           />
         </Grid>
       ))}
+      {selectedUser && (
+        <UserEditModal
+          user={selectedUser}
+          open={isEditModalOpen}
+          onClose={handleEditModalClose}
+          onSave={handleSaveEditedUser}
+        />
+      )}
     </Grid>
   );
 };

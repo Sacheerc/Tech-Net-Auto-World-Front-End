@@ -23,6 +23,15 @@ const add = async (user: User) => {
     }
 };
 
-const AuthService = { getAll, add };
+const deleteByUsername = async (id: string | number) => {
+    try {
+        const response = await api.delete(`/auth/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const AuthService = { getAll, add, deleteByUsername };
 
 export default AuthService;
