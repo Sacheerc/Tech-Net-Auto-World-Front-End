@@ -6,6 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import QuotationItem from "../../Models/QuotationItem";
 import QuotationWork from "../../Models/QuotationWork";
 import CustomFooterTotalComponent from "../../components/CustomFooterTotalComponent";
+import QuotationTemplate from "../../components/pdfTemplates/QuotationTemplate";
+import { usePDF } from "react-to-pdf";
 
 interface SubTotal {
     item: number;
@@ -145,6 +147,7 @@ const Quotation: React.FC = () => {
         };
         updateQuotationWorkSubTotal();
     }, [quotationWorkList]);
+
 
     return (
         <Paper style={{ margin: '20px', padding: '30px' }}>
@@ -313,6 +316,18 @@ const Quotation: React.FC = () => {
             <br></br>
             <CustomDataGrid columns={quatationWorkColumns} data={quotationWorkList} id="id" updateRow={updateQuotationWorkRow} customFooter={CustomFooterTotalComponent} customFooterPros={{ total: subTotal.work }}></CustomDataGrid>
             <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} marginTop={3}>
+                <QuotationTemplate name='Sachintha Rathnayake'
+                    phone='0719247080'
+                    validFor='2 Months'
+                    make='Toyota'
+                    model='Auqa'
+                    color='Pure White'
+                    vehNo='CAQ-6219'
+                    jobNo='123456'
+                    quoteItems={quotationItemList}
+                    machinaryWorks={quotationMachinaryWorkList}
+                    works={quotationWorkList}
+                />
                 <Box sx={{ padding: "10px", width: 230 }}>
                     <Typography variant="body1"><strong>DISCOUNTS:</strong></Typography>
                     <TextField

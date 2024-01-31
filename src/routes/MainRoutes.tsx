@@ -1,3 +1,4 @@
+import QuotationTemplate from '../components/pdfTemplates/QuotationTemplate';
 import MainLayout from '../layouts/MainLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
 import InventoryItemForm from '../pages/inventoryManagement/InventoryItemForm';
@@ -51,6 +52,20 @@ const MainRoutes = {
     {
       path: '/vehiclemanagement/quotation/add',
       element: <Quotation />,
+    },
+    {
+      path: '/vehiclemanagement/quotation/add/pdf',
+      element: <QuotationTemplate
+        name='Sachintha Rathnayake'
+        phone='0719247080'
+        validFor='2 Months'
+        make='Toyota'
+        model='Auqa'
+        color='Pure White'
+        vehNo='CAQ-6219'
+        jobNo='123456'
+        quoteItems={[]}
+      />,
     },
   ],
 };
