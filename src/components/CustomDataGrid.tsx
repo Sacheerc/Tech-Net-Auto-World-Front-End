@@ -27,6 +27,7 @@ interface CustomDataGridProps {
   updateRow?: (newRow: GridRowModel) => void;
   customFooter?: React.ComponentType<any>;
   customFooterPros?: any;
+  hideActions?: boolean;
 }
 
 const CustomDataGrid: React.FC<CustomDataGridProps> = ({
@@ -38,7 +39,8 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
   openEditModal,
   updateRow,
   customFooter,
-  customFooterPros
+  customFooterPros,
+  hideActions
 }) => {
 
   const handleEdit = (id: number | string, rowData: Row) => {
@@ -90,14 +92,15 @@ const CustomDataGrid: React.FC<CustomDataGridProps> = ({
     },
   ];
 
-  const totalWidth = columns.reduce((acc, column) => acc + (column.width || 100), 0);
+  const tempColumns: GridColDef[] = hideActions ? columns : columnsWithActions
+  const totalWidth = tempColumns.reduce((acc, column) => acc + (column.width || 100), 0);
   console.log(totalWidth)
 
   return (
-    <Grid width={totalWidth + 250}>
+    <Grid width={totalWidth + 35}>
       <DataGrid
         rows={data}
-        columns={columnsWithActions}
+        columns={hideActions ? columns : columnsWithActions}
         initialState={{
           pagination: {
             paginationModel: {

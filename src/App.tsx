@@ -17,7 +17,7 @@ const darkTheme = createTheme({
 
 const App: React.FC = () => {
   // const location = useLocation();
-  const [themeMode, setThemeMode] = React.useState<'light' | 'dark'>('dark');
+  const [themeMode, setThemeMode] = React.useState<'light' | 'dark'>('light');
 
   const toggleTheme = () => {
     setThemeMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
