@@ -2,6 +2,7 @@ import MainLayout from '../layouts/MainLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
 import InventoryItemForm from '../pages/inventoryManagement/InventoryItemForm';
 import InventoryManagement from '../pages/inventoryManagement/InventoryManagement';
+import UserForm from '../pages/userManagement/UserForm';
 import UserManagement from '../pages/userManagement/UserManagement';
 import Quotation from '../pages/vehicleManagement/Quotation';
 import ServiceRecordsManagement from '../pages/vehicleManagement/ServiceRecordManagement';
@@ -22,6 +23,10 @@ const MainRoutes = {
     {
       path: '/usermanagement',
       element: <UserManagement />,
+    },
+    {
+      path: '/usermanagement/add',
+      element: <UserForm user={null} />,
     },
     {
       path: '/inventorymanagement',
