@@ -5,20 +5,21 @@ import { GridColDef } from "@mui/x-data-grid";
 import AddIcon from '@mui/icons-material/Add';
 import Labor from "../../Models/Labor";
 import MachineryWork from "../../Models/MachineryWork";
+import WorkOrderTemplate from "../../components/pdfTemplates/WorkOrderTemplate";
 
 
 const machineryWorkItemColumns: GridColDef[] = [
-    { field: 'serialNo', headerName: 'DESCRIPTION OF MACHINERY WORK', width: 600, editable: true },
-    { field: 'item', headerName: 'EMPLOYEE NAME', width: 200, editable: true },
-    { field: 'country', headerName: 'TIME GIVEN', width: 200, editable: true },
-    { field: 'brand', headerName: 'TIME SPENT', width: 200, editable: true },
+    { field: 'workDescription', headerName: 'DESCRIPTION OF MACHINERY WORK', width: 600, editable: true },
+    { field: 'empName', headerName: 'EMPLOYEE NAME', width: 200, editable: true },
+    { field: 'timeGiven', headerName: 'TIME GIVEN', width: 200, editable: true },
+    { field: 'timeSpent', headerName: 'TIME SPENT', width: 200, editable: true },
 ];
 
-const laborColumns: GridColDef[] = [
-    { field: 'serialNo', headerName: 'LABOR DESCRIPTION', width: 600, editable: true },
-    { field: 'item', headerName: 'EMPLOYEE NAME', width: 200, editable: true },
-    { field: 'country', headerName: 'TIME GIVEN', width: 200, editable: true },
-    { field: 'brand', headerName: 'TIME SPENT', width: 200, editable: true },
+const laborItemColumns: GridColDef[] = [
+    { field: 'laborDescription', headerName: 'LABOR DESCRIPTION', width: 600, editable: true },
+    { field: 'empName', headerName: 'EMPLOYEE NAME', width: 200, editable: true },
+    { field: 'timeGiven', headerName: 'TIME GIVEN', width: 200, editable: true },
+    { field: 'timeSpent', headerName: 'TIME SPENT', width: 200, editable: true },
 ];
 
 const WorkOrder: React.FC = () => {
@@ -213,9 +214,21 @@ const WorkOrder: React.FC = () => {
                 </Button>
             </Grid>
             <br></br>
-            <CustomDataGrid columns={laborColumns} data={laborList} id="id" ></CustomDataGrid>
+            <CustomDataGrid columns={laborItemColumns} data={laborList} id="id" ></CustomDataGrid>
             <br />
             <br />
+            <WorkOrderTemplate
+                    vehicleNumber='CAC2235'
+                    jobNumber='1234'
+                    targetDuration='2 Months'
+                    expectedEndDate='3 Months'
+                    jobStartedDate='01/02/2024'
+                    jobEndedDate='01/03/2024'
+                    durationUsedForJob='8 Hours'
+                    delayedDurationForTheSpares='2 Days'
+                    machinaryWorks={machineryWorkItemList}
+                    labor={laborList}
+                />
         </Paper>
     );
 
