@@ -316,7 +316,7 @@ const Quotation: React.FC = () => {
             <br></br>
             <CustomDataGrid columns={quatationWorkColumns} data={quotationWorkList} id="id" updateRow={updateQuotationWorkRow} customFooter={CustomFooterTotalComponent} customFooterPros={{ total: subTotal.work }}></CustomDataGrid>
             <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} marginTop={3}>
-                <QuotationTemplate name='Sachintha Rathnayake'
+                {/* <QuotationTemplate name='Sachintha Rathnayake'
                     phone='0719247080'
                     validFor='2 Months'
                     make='Toyota'
@@ -327,7 +327,7 @@ const Quotation: React.FC = () => {
                     quoteItems={quotationItemList}
                     machinaryWorks={quotationMachinaryWorkList}
                     works={quotationWorkList}
-                />
+                /> */}
                 <Box sx={{ padding: "10px", width: 230 }}>
                     <Typography variant="body1"><strong>DISCOUNTS:</strong></Typography>
                     <TextField
@@ -367,6 +367,16 @@ const Quotation: React.FC = () => {
                     <hr />
                     <Typography variant="body2"><strong>{(subTotal.item + subTotal.machinaryWork + subTotal.work - labourDiscount - woDiscount).toFixed(2)}</strong></Typography>
                 </Box>
+            </Grid>
+            <br></br>
+            <Grid item xs={12} display={'flex'} justifyContent={'flex-end'}>
+                <Button
+                    variant='outlined'
+                    endIcon={<AddIcon />}
+                    onClick={addQuotationWork}
+                >
+                    Save Quotation
+                </Button>
             </Grid>
         </Paper>
     );

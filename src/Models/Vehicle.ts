@@ -4,7 +4,7 @@ interface Vehicle {
   vehicleNo: string;
   model: string;
   color: string;
-  ownerAddress: string;
+  make: string;
   ownerNIC: string;
   ownerContact: string;
   ownerEmail: string;
